@@ -39,10 +39,10 @@ public class Team implements Comparable<Team>{
     @Override
     public int compareTo(Team o) {
         int result = (int) (-this.getSum()*10+o.getSum()*10);
-        if (result==0 && this.getPoints().length==(rounds-1)){
+        if (result==0 && this.getPoints().length==rounds && this.getPoints().length>3){
             result=(int) (-this.getPoints()[(rounds-2)]*10+o.getPoints()[(rounds-2)]*10);
         }
-        if (result==0 && this.getPoints().length==rounds){
+        if (result==0 && this.getPoints().length>3){
             result=(int) (-this.getPoints()[(rounds-1)]*10+o.getPoints()[(rounds-1)]*10);
         }
         return result;

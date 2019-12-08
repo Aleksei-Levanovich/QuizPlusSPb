@@ -2,23 +2,24 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 public class InsertPointsWindow {
     public static void createGUI(int teams, int rounds){
         JFrame frame = new JFrame("QuizPlusSPb");
         JPanel grid = new JPanel();
-        GridLayout layout = new GridLayout(teams+2, rounds+1);
+        GridLayout layout = new GridLayout(teams+1, rounds+1);
         grid.setLayout(layout);
         grid.add(new JLabel("Названия команд"));
-        for (int i=0;i<rounds;i++){
-            grid.add(new JLabel("           Р"+(i+1)));
+        for (int i=1;i<=rounds;i++){
+            grid.add(new JLabel("           Р"+i));
         }
         JTextField textFields[] = new JTextField[teams*(rounds+1)];
         int current = 0;
         for (int i=0; i<teams; i++){
             for (int j=0; j<rounds+1; j++){
-                JTextField titleText = new JTextField();
-                titleText.setPreferredSize( new Dimension( 200, 24 ) );
+                String text = String.valueOf(j);
+                JTextField titleText = new JTextField(text,5);
                 textFields[current] = titleText;
                 grid.add(textFields[current]);
                 current++;
@@ -54,12 +55,20 @@ public class InsertPointsWindow {
                     teamCurrent.setSum(sum);
                     team[i]=teamCurrent;
                 }
-                TableWindow.createGUI(team,rounds,last,teams);
+                try {
+                    TableWindow.createGUI(team,rounds,last,teams);
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
             }
         });
-        grid.add(button);
+        JPanel panel = new JPanel();
+        panel.setLayout(new FlowLayout());
+        panel.add(button);
+        frame.setLayout(new FlowLayout());
         frame.getContentPane().add(grid);
-        frame.setSize(1600,900);
+        frame.add(panel);
+        frame.pack();
         frame.setVisible(true);
     }
 }
